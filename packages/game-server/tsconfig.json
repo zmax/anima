@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "commonjs",
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "rootDir": "src"
+    // 因為 game-server 是最終應用而不是被引用的庫，
+    // 所以 "declaration" 和 "composite" 不是必需的，
+    // 但為了與其他套件保持一致，也可以加上。
+  },
+  "include": ["src/**/*"],
+  "references": [
+    { "path": "../core" },
+    { "path": "../shared" }
+  ]
+}

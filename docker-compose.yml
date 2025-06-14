@@ -1,0 +1,47 @@
+# docker-compose.yml
+# 描述: 統一編排 Anima 專案所有後端服務的設定檔。
+# 使用 `docker compose up -d` 來在背景啟動所有服務。
+# 使用 `docker compose down` 來停止並移除所有容器。
+
+version: '3.8'
+
+services:
+  # PostgreSQL 永久存檔服務
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    container_name: anima-postgres
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-anima_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-anima_password}
+      POSTGRES_DB: ${POSTGRES_DB:-anima_db}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-anima_user} -d ${POSTGRES_DB:-anima_db}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Redis 即時狀態服務
+  redis:
+    image: redis:7-alpine
+    restart: always
+    container_name: anima-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:
+    driver: local
+  redis-data:
+    driver: local

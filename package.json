@@ -1,0 +1,17 @@
+{
+  "name": "anima-game-framework",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "concurrently \"pnpm --filter @anima/game-server dev\" \"pnpm --filter @anima/web dev\"",
+    "build": "pnpm -r build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.12.1",
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
